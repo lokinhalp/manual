@@ -9,7 +9,7 @@
  
  //$connect  = mysqli_connect($localhost, $username, $password, $db);
  //$host = "localhost:C:\Banco\INTUICTIVE.FDB";
- $host = 'localhost:/Banco/INTUICTIVE.FDB';
+ $host = 'localhost:/../../../db/MANUAL.FDB';
  $usuario = "SYSDBA"; // Usuário 
  $senha = "masterkey"; // Senha
 
