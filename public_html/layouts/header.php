@@ -67,7 +67,7 @@
                         <a class="nav-link-collapse collapsed" data-toggle="collapse" href="#collapseMulti3">Consultar</a>
                         <ul class="sidenav-third-level collapse" id="collapseMulti3">
                             <li>
-                            <a href="#">Categoria</a>
+                            <a href="?page=categoria">Categoria</a>
                             </li>
                             <li>
                             <a href="#">Versão</a>

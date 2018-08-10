@@ -1,0 +1,167 @@
+CREATE TABLE T_CATEGORIA (
+    CD_CATEGORIA INTEGER NOT NULL,
+    DS_CATEGORIA VARCHAR(200));
+
+CREATE SEQUENCE SQ_CATEGORIA;
+
+create trigger t_categoria_bi for t_categoria
+active before insert position 0
+as
+begin
+  if (new.cd_categoria is null) then
+    new.cd_categoria = gen_id(sq_categoria,1);
+end;
+
+create procedure sp_gen_t_categoria_id
+returns (id integer)
+as
+begin
+  id = gen_id(sq_categoria, 1);
+  suspend;
+end;
+
+ALTER TABLE T_CATEGORIA
+ADD CONSTRAINT PK_T_CATEGORIA
+PRIMARY KEY (CD_CATEGORIA);
+
+-----------------------------------------------------
+
+CREATE TABLE T_VERSAO (
+    CD_VERSAO INTEGER NOT NULL,
+    DS_VERSAO VARCHAR(20));
+
+CREATE SEQUENCE SQ_VERSAO;
+
+create trigger t_versao_bi for t_versao
+active before insert position 0
+as
+begin
+  if (new.cd_versao is null) then
+    new.cd_versao = gen_id(sq_versao,1);
+end;
+
+create procedure sp_gen_t_versao_id
+returns (id integer)
+as
+begin
+  id = gen_id(sq_versao, 1);
+  suspend;
+end;
+
+
+ALTER TABLE T_VERSAO
+ADD CONSTRAINT PK_T_VERSAO
+PRIMARY KEY (CD_VERSAO);
+
+-----------------------------------
+
+
+CREATE TABLE T_APLICACAO_MAN (
+    CD_APLICACAO INTEGER NOT NULL,
+    DS_APLICACAO VARCHAR(20));
+
+
+CREATE SEQUENCE SQ_APLICACAO_MAN;
+
+
+create trigger t_aplicacao_man_bi for t_aplicacao_man
+active before insert position 0
+as
+begin
+  if (new.cd_aplicacao is null) then
+    new.cd_aplicacao = gen_id(sq_aplicacao_man,1);
+end;
+
+
+create procedure sp_gen_t_aplicacao_man_id
+returns (id integer)
+as
+begin
+  id = gen_id(sq_aplicacao_man, 1);
+  suspend;
+end;
+
+ALTER TABLE T_APLICACAO_MAN
+ADD CONSTRAINT PK_T_APLICACAO_MAN
+PRIMARY KEY (CD_APLICACAO);
+
+------------------------------
+
+CREATE TABLE T_MANUAL (
+    CD_MANUAL INTEGER NOT NULL,
+    DS_MANUAL VARCHAR(300),
+    NM_USUARIO VARCHAR(100),
+    DS_OBSERVACAO VARCHAR(2000),
+    DS_TAG VARCHAR(200),
+    CD_VERSAO INTEGER,
+    CD_CATEGORIA INTEGER,
+    CD_APLICACAO INTEGER);
+
+
+CREATE SEQUENCE SQ_MANUAL;
+
+
+create trigger t_manual_bi for t_manual
+active before insert position 0
+as
+begin
+  if (new.cd_manual is null) then
+    new.cd_manual = gen_id(sq_manual,1);
+end;
+
+
+create procedure sp_gen_t_manual_id
+returns (id integer)
+as
+begin
+  id = gen_id(sq_manual, 1);
+  suspend;
+end;
+
+ALTER TABLE T_MANUAL
+ADD CONSTRAINT PK_T_MANUAL
+PRIMARY KEY (CD_MANUAL);
+
+ALTER TABLE T_MANUAL
+ADD CONSTRAINT FK_T_MANUAL_1
+FOREIGN KEY (CD_VERSAO)
+REFERENCES T_VERSAO(CD_VERSAO);
+
+ALTER TABLE T_MANUAL
+ADD CONSTRAINT FK_T_MANUAL_2
+FOREIGN KEY (CD_CATEGORIA)
+REFERENCES T_CATEGORIA(CD_CATEGORIA);
+
+ALTER TABLE T_MANUAL
+ADD CONSTRAINT FK_T_MANUAL_3
+FOREIGN KEY (CD_APLICACAO)
+REFERENCES T_APLICACAO_MAN(CD_APLICACAO);
+
+CREATE INDEX T_MANUAL_IDX1
+ON T_MANUAL (CD_MANUAL,CD_VERSAO,CD_CATEGORIA,CD_APLICACAO);
+
+
+ALTER TABLE T_MANUAL
+    ADD DT_INCLUSAO TIMESTAMP,
+    ADD DT_ULT_ALTERACAO TIMESTAMP,
+    ADD DS_MANUAL_TOTAL VARCHAR(10000);
+
+
+CREATE TRIGGER TG_ATUALIZADATAHORAINCLUI FOR T_MANUAL
+  ACTIVE BEFORE INSERT
+ POSITION 0
+AS
+BEGIN
+  NEW.DT_INCLUSAO = CURRENT_TIMESTAMP;
+END;
+
+
+CREATE TRIGGER TG_ATUALIZADATAHORAALTERA FOR T_MANUAL
+  ACTIVE BEFORE UPDATE
+ POSITION 0
+AS
+BEGIN
+  NEW.DT_ULT_ALTERACAO = CURRENT_TIMESTAMP;
+END;
+
+-----------------------------------

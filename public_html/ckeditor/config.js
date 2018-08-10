@@ -4,6 +4,7 @@
  */
 
 CKEDITOR.editorConfig = function( config ) {
+	config.extraPlugins = 'autogrow';
 	config.toolbarGroups = [
 		{ name: 'basicstyles', groups: [ 'basicstyles', 'cleanup' ] },
 		{ name: 'paragraph', groups: [ 'list', 'indent', 'blocks', 'align', 'bidi', 'paragraph' ] },

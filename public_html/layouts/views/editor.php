@@ -15,6 +15,7 @@
                 CKEDITOR.replace( 'editor', {
                     //height: 500,
                     //readOnly: true, // somente leitura, habilitar quando o usuário não puder editar
+                    extraPlugins: 'autogrow',
                     skin : 'office2013',
                     language : "pt-br",
                     toolbarGroups: [
